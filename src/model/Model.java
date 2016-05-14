@@ -45,12 +45,12 @@ public class Model {
 	/**
 	 * Local host name
 	 */
-	private String name;
+	private static String name;
 
 	/**
 	 * Local ip
 	 */
-	private String ip;
+	private static String ip;
 
 	/**
 	 * Message Server
@@ -88,7 +88,7 @@ public class Model {
 	public Model(View view) throws IOException {
 		this.view = view;
 		name = InetAddress.getLocalHost().getHostName();
-		ip = InetAddress.getLocalHost().getCanonicalHostName();
+		ip = InetAddress.getLocalHost().getHostAddress();
 		mServer = new MessageServer();
 		fServer = new FileServer();
 	}
@@ -97,8 +97,12 @@ public class Model {
 	 * Get local host name
 	 * 
 	 * @return Local host name
+	 * @throws UnknownHostException
 	 */
-	public String getName() {
+	public static String getName() throws UnknownHostException {
+		if (name == null) {
+			name = InetAddress.getLocalHost().getHostName();
+		}
 		return name;
 	}
 
@@ -106,8 +110,12 @@ public class Model {
 	 * Get local IP
 	 * 
 	 * @return Local IP
+	 * @throws UnknownHostException 
 	 */
-	public String getIP() {
+	public static String getIP() throws UnknownHostException {
+		if (ip == null) {
+			ip = InetAddress.getLocalHost().getHostAddress();
+		}
 		return ip;
 	}
 
@@ -148,7 +156,7 @@ public class Model {
 			if (!file.exists()) {
 				System.out.println("File not found" + file.getAbsolutePath());
 				file = null;
-			} else if (file.length() > 200000) {
+			} else if (file.length() > 1024*1024) {
 				System.out.println("File too big : " + file.length());
 				// file = null;
 			}
@@ -353,7 +361,7 @@ public class Model {
 				new ReadService().start();
 				writer = new PrintWriter(socket.getOutputStream(), true);
 			} catch (IOException e) {
-				System.out.println("Connection to server failed!");
+				e.printStackTrace();
 			}
 		}
 
@@ -363,7 +371,9 @@ public class Model {
 		 * @throws IOException
 		 */
 		void close() throws IOException {
-			socket.close();
+			if (socket != null) {
+				socket.close();
+			}
 		}
 
 		/**

@@ -3,7 +3,7 @@ package controller;
 import java.io.IOException;
 
 /**
- * Instant Message Driver
+ * Instant Messenger Driver
  * 
  * @author Geurney
  *

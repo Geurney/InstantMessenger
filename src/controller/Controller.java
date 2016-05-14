@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 import model.Model;
 import view.View;
@@ -84,6 +85,22 @@ public class Controller {
 			model.connectMessageServer(host);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public String getName() {
+		try {
+			return Model.getName();
+		} catch (UnknownHostException e) {
+			return null;
+		}
+	}
+
+	public String getIP() {
+		try {
+			return Model.getIP();
+		} catch (UnknownHostException e) {
+			return null;
 		}
 	}
 }

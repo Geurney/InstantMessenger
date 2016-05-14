@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
 import controller.Controller;
+import javax.swing.JLabel;
 
 public class View {
 	/**
@@ -88,7 +89,7 @@ public class View {
 	 * Initialize the view
 	 */
 	private void initialize() {
-		frame = new JFrame("Instant Messager");
+		frame = new JFrame("Instant Messenger");
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(null);
 
@@ -197,6 +198,25 @@ public class View {
 		});
 		receiveFileButton.setBounds(1018, 614, 145, 41);
 		mainPanel.add(receiveFileButton);
+		
+		JLabel nameLabel = new JLabel("");
+		nameLabel.setText(controller.getName());
+		nameLabel.setBounds(792, 18, 115, 33);
+		mainPanel.add(nameLabel);
+		
+		JLabel ipLabel = new JLabel("");
+		ipLabel.setText(controller.getIP());
+		ipLabel.setBounds(955, 18, 115, 33);
+		mainPanel.add(ipLabel);
+		
+		JButton sentIPButton = new JButton("IP");
+		sentIPButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				outgoing.setText("My IP is " + controller.getIP());
+			}
+		});
+		sentIPButton.setBounds(1096, 14, 63, 41);
+		mainPanel.add(sentIPButton);
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1221, 771);
